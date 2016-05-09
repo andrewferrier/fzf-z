@@ -21,7 +21,9 @@ Will bring up a list of recently used directories. Select one, perhaps typing
 to filter the list, and hit Enter - you'll change to that directory. This can
 be used anywhere a directory is needed, and is similar to the default
 **Ctrl-T** binding already provided by the [fzf zsh key-bindings
-file](https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh).
+file](https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh). At
+the moment, this plugin doesn't allow the **Ctrl-G** keybinding to be customized,
+but you can change by simply forking the plugin and editing the file if you want.
 
 ## Installation
 
@@ -42,4 +44,3 @@ If you're using [zgen](https://github.com/tarjoilija/zgen):
 
 1. Add `zgen load andrewferrier/fzf-z` to your `.zshrc` along with your other `zgen load` commands.
 2. `rm ${ZGEN_INIT}/init.zsh && zgen save`
-
