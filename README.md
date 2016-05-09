@@ -27,8 +27,7 @@ but you can change by simply forking the plugin and editing the file if you want
 
 ## Installation
 
-This instructions need to be expanded, but for the moment - simply treat this
-plugin like [any other zsh
+Treat this plugin like [any other zsh
 plugin](http://joshldavis.com/2014/07/26/oh-my-zsh-is-a-disease-antigen-is-the-vaccine/).
 
 ### Antigen
