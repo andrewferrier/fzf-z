@@ -6,7 +6,7 @@
 __fzfz() {
   local cmd="z -l | awk '{print \$2}'"
   eval "$cmd" | fzf -m | while read item; do
-    printf '%q ' "$item"
+    printf 'cd %q ' "$item"
   done
   echo
 }
