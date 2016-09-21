@@ -5,7 +5,7 @@
 
 __fzfz() {
   local cmd="z -l | awk '{print \$2}'"
-  eval "$cmd" | fzf -m | while read item; do
+  eval "$cmd" | fzf -m --preview="ls -1 {} | head -$LINES" | while read item; do
     printf 'cd %q ' "$item"
   done
   echo
