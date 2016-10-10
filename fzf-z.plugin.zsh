@@ -4,7 +4,7 @@
 # (MIT licensed, as of 2016-05-05).
 
 __fzfz() {
-  local cmd="z -l | sed 's/^[[:digit:].]*[[:space:]]*//'"
+  local cmd="z -l | tail -r | sed 's/^[[:digit:].]*[[:space:]]*//'"
   eval "$cmd" | fzf -m --preview="ls -1 {} | head -$LINES" | while read item; do
     printf 'cd %q ' "$item"
   done
