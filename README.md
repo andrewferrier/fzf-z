@@ -13,11 +13,19 @@ This zsh plugin brings together the *z* plugin and *fzf* to allow you to
 easily browse recently used directories at any point on the command line. Just
 type `<CTRL-g>` on an empty zsh command-line, and it will bring up a list of
 recently used directories. Select one, perhaps typing to filter the list, and
-hit Enter - you'll change to that directory. This is similar to the default
+hit Enter - you'll change to that directory (assuming you have the `AUTO_CD`
+zsh option turned on, which is recommended). This is similar to the default
 **Ctrl-T** binding already provided by the [fzf zsh key-bindings
 file](https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh). At
-the moment, this plugin doesn't allow the **Ctrl-G** keybinding to be customized,
-but you can change by simply forking the plugin and editing the file if you want.
+the moment, this plugin doesn't allow the **Ctrl-G** keybinding to be
+customized, but you can change by simply forking the plugin and editing the
+file if you want.
+
+*New Capability*: If you now set the FZFZ_EXTRA_DIRS environment variable to a
+space-separated list of directories (e.g. `FZFZ_EXTRA_DIRS="~/Dropbox
+~/Documents ~"`), `fzf-z` will also add all the subdirectories within those
+directories to the list for browsing. They will be sorted lower in priority
+than those returned by `z`, however.
 
 ## Installation
 
