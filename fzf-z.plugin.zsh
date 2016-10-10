@@ -6,7 +6,7 @@
 __fzfz() {
   local cmd="z -l | tail -r | sed 's/^[[:digit:].]*[[:space:]]*//'"
   eval "$cmd" | fzf -m --preview="ls -1 {} | head -$LINES" | while read item; do
-    printf 'cd %q ' "$item"
+    printf '%q ' "$item"
   done
   echo
 }
