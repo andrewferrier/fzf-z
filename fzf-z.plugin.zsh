@@ -5,7 +5,7 @@
 
 __fzfz() {
     if (($+FZFZ_EXTRA_DIRS)); then
-        FZFZ_EXTRA_DIRS="{ find -s $FZFZ_EXTRA_DIRS -type d 2> /dev/null }"
+        FZFZ_EXTRA_DIRS="{ find $FZFZ_EXTRA_DIRS -type d 2> /dev/null }"
     else
         FZFZ_EXTRA_DIRS="{ true }"
     fi
