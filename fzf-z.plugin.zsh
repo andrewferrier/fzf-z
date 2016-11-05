@@ -15,8 +15,22 @@ __fzfz() {
     else
         FZFZ_EXTRA_DIRS="{ true }"
     fi
-    local cmd="{ { z -l | $REVERSER | sed 's/^[[:digit:].]*[[:space:]]*//' }; $FZFZ_EXTRA_DIRS; }"
-    eval "$cmd" | fzf --tiebreak=index -m --preview="ls -1 {} | head -$LINES" | while read item; do
+
+    SUBDIR_LIMIT=${SUBDIR_LIMIT:=50}
+
+    REMOVE_FIRST="tail -n +2"
+    LIMIT_LENGTH="head -n $(($SUBDIR_LIMIT+1))"
+
+    SUBDIRS="{ find . -type d | $LIMIT_LENGTH | $REMOVE_FIRST }"
+    RECENTLY_USED_DIRS="{ z -l | $REVERSER | sed 's/^[[:digit:].]*[[:space:]]*//' }"
+
+    ABSOLUTE_PATH="tr '\n' '\0' | xargs -0 realpath"
+
+    FZF_COMMAND='fzf --tiebreak=index -m --preview="ls -1 {} | head -$LINES"'
+
+    local COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $FZFZ_EXTRA_DIRS; } | $ABSOLUTE_PATH | $FZF_COMMAND"
+
+    eval "$COMMAND" | while read item; do
     printf '%q ' "$item"
   done
   echo
