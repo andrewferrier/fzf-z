@@ -2,7 +2,8 @@
 
 If you're anything like me, you like [fzf](https://github.com/junegunn/fzf),
 you like [zsh](http://www.zsh.org/), and you like oh-my-zsh's [z
-plugin](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/z).
+plugin](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/z),
+which allows you to track recently and commonly used directories.
 
 However, although the *z* plugin does a great job of allowing you to switch
 between frequently-used directories just by typing `z
