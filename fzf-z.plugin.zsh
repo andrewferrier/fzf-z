@@ -10,6 +10,12 @@ else
 fi
 
 __fzfz() {
+    if (($+FZFZ_EXCLUDE_PATTERN)); then
+        EXCLUDER="egrep -v '$FZFZ_EXCLUDE_PATTERN'"
+    else
+        EXCLUDER="cat"
+    fi
+
     if (($+FZFZ_EXTRA_DIRS)); then
         FZFZ_EXTRA_DIRS="{ find $FZFZ_EXTRA_DIRS -type d 2> /dev/null }"
     else
@@ -28,7 +34,7 @@ __fzfz() {
 
     FZF_COMMAND='fzf --tiebreak=index -m --preview="ls -1 {} | head -$LINES"'
 
-    local COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $FZFZ_EXTRA_DIRS; } | $ABSOLUTE_PATH | $FZF_COMMAND"
+    local COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $FZFZ_EXTRA_DIRS; } | $EXCLUDER | $ABSOLUTE_PATH | $FZF_COMMAND"
 
     eval "$COMMAND" | while read item; do
     printf '%q ' "$item"
