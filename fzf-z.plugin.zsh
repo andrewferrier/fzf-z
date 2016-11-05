@@ -17,15 +17,15 @@ __fzfz() {
     fi
 
     if (($+FZFZ_EXTRA_DIRS)); then
-        FZFZ_EXTRA_DIRS="{ find $FZFZ_EXTRA_DIRS -type d 2> /dev/null }"
+        EXTRA_DIRS="{ find $FZFZ_EXTRA_DIRS -type d 2> /dev/null }"
     else
-        FZFZ_EXTRA_DIRS="{ true }"
+        EXTRA_DIRS="{ true }"
     fi
 
-    SUBDIR_LIMIT=${SUBDIR_LIMIT:=50}
+    FZFZ_SUBDIR_LIMIT=${FZFZ_SUBDIR_LIMIT:=50}
 
     REMOVE_FIRST="tail -n +2"
-    LIMIT_LENGTH="head -n $(($SUBDIR_LIMIT+1))"
+    LIMIT_LENGTH="head -n $(($FZFZ_SUBDIR_LIMIT+1))"
 
     SUBDIRS="{ find . -type d | $LIMIT_LENGTH | $REMOVE_FIRST }"
     RECENTLY_USED_DIRS="{ z -l | $REVERSER | sed 's/^[[:digit:].]*[[:space:]]*//' }"
@@ -34,7 +34,7 @@ __fzfz() {
 
     FZF_COMMAND='fzf --tiebreak=index -m --preview="ls -1 {} | head -$LINES"'
 
-    local COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $FZFZ_EXTRA_DIRS; } | $EXCLUDER | $ABSOLUTE_PATH | $FZF_COMMAND"
+    local COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $EXTRA_DIRS; } | $EXCLUDER | $ABSOLUTE_PATH | $FZF_COMMAND"
 
     eval "$COMMAND" | while read item; do
     printf '%q ' "$item"
