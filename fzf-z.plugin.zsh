@@ -16,8 +16,12 @@ __fzfz() {
         EXCLUDER="cat"
     fi
 
+    # EXCLUDER is applied directly only to searches that need it (i.e. not
+    # `z`). That improvements performance, and makes sure that the
+    # FZFZ_SUBDIR_LIMIT is applied on the post-excluded list.
+
     if (($+FZFZ_EXTRA_DIRS)); then
-        EXTRA_DIRS="{ find $FZFZ_EXTRA_DIRS -type d 2> /dev/null }"
+        EXTRA_DIRS="{ find $FZFZ_EXTRA_DIRS -type d 2> /dev/null | $EXCLUDER }"
     else
         EXTRA_DIRS="{ true }"
     fi
@@ -27,14 +31,12 @@ __fzfz() {
     REMOVE_FIRST="tail -n +2"
     LIMIT_LENGTH="head -n $(($FZFZ_SUBDIR_LIMIT+1))"
 
-    SUBDIRS="{ find . -type d | $LIMIT_LENGTH | $REMOVE_FIRST }"
+    SUBDIRS="{ find $PWD -type d | $EXCLUDER | $LIMIT_LENGTH | $REMOVE_FIRST }"
     RECENTLY_USED_DIRS="{ z -l | $REVERSER | sed 's/^[[:digit:].]*[[:space:]]*//' }"
-
-    ABSOLUTE_PATH="tr '\n' '\0' | xargs -0 realpath"
 
     FZF_COMMAND='fzf --tiebreak=index -m --preview="ls -1 {} | head -$LINES"'
 
-    local COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $EXTRA_DIRS; } | $EXCLUDER | $ABSOLUTE_PATH | $FZF_COMMAND"
+    local COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $EXTRA_DIRS; } | $FZF_COMMAND"
 
     eval "$COMMAND" | while read item; do
     printf '%q ' "$item"
