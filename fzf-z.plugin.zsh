@@ -39,14 +39,17 @@ __fzfz() {
     local COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $EXTRA_DIRS; } | $FZF_COMMAND"
 
     eval "$COMMAND" | while read item; do
-    printf '%q ' "$item"
-  done
-  echo
+        printf '%q ' "$item"
+    done
+    echo
 }
 
 fzfz-file-widget() {
-  LBUFFER="${LBUFFER}$(__fzfz)"
-  zle redisplay
+    LBUFFER="${LBUFFER}$(__fzfz)"
+    local ret=$?
+    zle redisplay
+    typeset -f zle-line-init >/dev/null && zle zle-line-init
+    return $ret
 }
 
 zle     -N   fzfz-file-widget
