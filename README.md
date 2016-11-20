@@ -50,7 +50,8 @@ you might be interested in).
 
 You must have the [z
 plugin](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/z)
-installed as a pre-req.
+installed as a pre-req. You must also have [fzf](https://github.com/junegunn/fzf)
+installed. Both must be in your `$PATH`.
 
 Treat this plugin like [any other zsh
 plugin](http://joshldavis.com/2014/07/26/oh-my-zsh-is-a-disease-antigen-is-the-vaccine/).
