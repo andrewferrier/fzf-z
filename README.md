@@ -23,7 +23,7 @@ shown in `fzf`, first to last):
    original purpose of this plugin). The order shown is the order given by `z
    -l`.
 
-1. All directories under all directories listed in the FZFZ_EXTRA_DIRS
+1. All subdirectories in all directories listed in the FZFZ_EXTRA_DIRS
    environment variables. These directories are space-separated, so for
    example:
 
