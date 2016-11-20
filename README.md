@@ -48,6 +48,10 @@ you might be interested in).
 
 ## Installation
 
+You must have the [z
+plugin](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/z)
+installed as a pre-req.
+
 Treat this plugin like [any other zsh
 plugin](http://joshldavis.com/2014/07/26/oh-my-zsh-is-a-disease-antigen-is-the-vaccine/).
 For example:
