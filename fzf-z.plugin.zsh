@@ -9,6 +9,13 @@ else
     REVERSER='tac'
 fi
 
+command -v tree >/dev/null 2>&1
+if [ $? -eq 0 ]; then
+    PREVIEW_COMMAND='tree -L 2 -x --noreport --dirsfirst {}'
+else
+    PREVIEW_COMMAND='ls -1 -R {}'
+fi
+
 __fzfz() {
     if (($+FZFZ_EXCLUDE_PATTERN)); then
         EXCLUDER="egrep -v '$FZFZ_EXCLUDE_PATTERN'"
@@ -34,7 +41,7 @@ __fzfz() {
     SUBDIRS="{ find $PWD -type d | $EXCLUDER | $LIMIT_LENGTH | $REMOVE_FIRST }"
     RECENTLY_USED_DIRS="{ z -l | $REVERSER | sed 's/^[[:digit:].]*[[:space:]]*//' }"
 
-    FZF_COMMAND="fzf --height ${FZF_TMUX_HEIGHT:-40%} --tiebreak=index -m --preview='ls -1 {} | head -$LINES'"
+    FZF_COMMAND="fzf --height ${FZF_TMUX_HEIGHT:-40%} --tiebreak=index -m --preview='$PREVIEW_COMMAND | head -\$LINES'"
 
     local COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $EXTRA_DIRS; } | $FZF_COMMAND"
 
