@@ -45,7 +45,7 @@ __fzfz() {
 
     FZF_COMMAND="fzf --height ${FZF_TMUX_HEIGHT:-40%} --tiebreak=end,index -m --preview='$PREVIEW_COMMAND | head -\$LINES'"
 
-    local COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $EXTRA_DIRS; } | $FZF_COMMAND"
+    local COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $EXTRA_DIRS; } | uniq | $FZF_COMMAND"
 
     eval "$COMMAND" | while read item; do
         printf '%q ' "$item"
