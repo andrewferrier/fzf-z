@@ -43,7 +43,7 @@ __fzfz() {
     SUBDIRS="{ find $PWD -type d | $EXCLUDER | $LIMIT_LENGTH | $REMOVE_FIRST }"
     RECENTLY_USED_DIRS="{ z -l | $REVERSER | sed 's/^[[:digit:].]*[[:space:]]*//' }"
 
-    FZF_COMMAND="fzf --height ${FZF_TMUX_HEIGHT:-40%} --tiebreak=index -m --preview='$PREVIEW_COMMAND | head -\$LINES'"
+    FZF_COMMAND="fzf --height ${FZF_TMUX_HEIGHT:-40%} --tiebreak=end,index -m --preview='$PREVIEW_COMMAND | head -\$LINES'"
 
     local COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $EXTRA_DIRS; } | $FZF_COMMAND"
 
