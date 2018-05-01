@@ -44,7 +44,8 @@ One more option - if you set the `FZFZ_EXCLUDE_PATTERN` environment variable
 to a regex (matched with `egrep`) it will exclude any directory which matches
 it from appearing in the subdirectory results (it isn't applied to the `z`
 results, since it's assumed any directory you've navigated to before is one
-you might be interested in).
+you might be interested in). By default this variable is set to filter out
+anything in a `.git` directory.
 
 ## Installation
 

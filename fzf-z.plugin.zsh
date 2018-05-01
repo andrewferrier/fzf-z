@@ -16,6 +16,8 @@ else
     PREVIEW_COMMAND='ls -1 -R {}'
 fi
 
+FZFZ_EXCLUDE_PATTERN=${FZFZ_EXCLUDE_PATTERN:="\/.git"}
+
 __fzfz() {
     if (($+FZFZ_EXCLUDE_PATTERN)); then
         EXCLUDER="egrep -v '$FZFZ_EXCLUDE_PATTERN'"
