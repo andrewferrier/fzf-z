@@ -47,6 +47,9 @@ results, since it's assumed any directory you've navigated to before is one
 you might be interested in). By default this variable is set to filter out
 anything in a `.git` directory.
 
+You can also set `FZFZ_EXTRA_OPTS` to add any additional options you like to
+the `fzf` command - for example, `-e` will turn exact matching on by default.
+
 ## Installation
 
 You must have the [z

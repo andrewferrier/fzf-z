@@ -17,6 +17,7 @@ else
 fi
 
 FZFZ_EXCLUDE_PATTERN=${FZFZ_EXCLUDE_PATTERN:="\/.git"}
+FZFZ_EXTRA_OPTS=${FZFZ_EXTRA_OPTS:=""}
 
 __fzfz() {
     if (($+FZFZ_EXCLUDE_PATTERN)); then
@@ -43,7 +44,7 @@ __fzfz() {
     SUBDIRS="{ find $PWD -type d | $EXCLUDER | $LIMIT_LENGTH | $REMOVE_FIRST }"
     RECENTLY_USED_DIRS="{ z -l | $REVERSER | sed 's/^[[:digit:].]*[[:space:]]*//' }"
 
-    FZF_COMMAND="fzf --height ${FZF_TMUX_HEIGHT:-40%} --tiebreak=end,index -m --preview='$PREVIEW_COMMAND | head -\$LINES'"
+    FZF_COMMAND="fzf --height ${FZF_TMUX_HEIGHT:-40%} ${FZFZ_EXTRA_OPTS} --tiebreak=end,index -m --preview='$PREVIEW_COMMAND | head -\$LINES'"
 
     local COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $EXTRA_DIRS; } | uniq | $FZF_COMMAND"
 
