@@ -42,7 +42,7 @@ __fzfz() {
     REMOVE_FIRST="tail -n +2"
     LIMIT_LENGTH="head -n $(($FZFZ_SUBDIR_LIMIT+1))"
 
-    SUBDIRS="{ find $PWD -type d | $EXCLUDER | $LIMIT_LENGTH | $REMOVE_FIRST }"
+    SUBDIRS="{ find '$PWD' -type d | $EXCLUDER | $LIMIT_LENGTH | $REMOVE_FIRST }"
     RECENTLY_USED_DIRS="{ z -l | $REVERSER | sed 's/^[[:digit:].]*[[:space:]]*//' }"
 
     FZF_COMMAND="fzf --height ${FZF_TMUX_HEIGHT:-40%} ${FZFZ_EXTRA_OPTS} --tiebreak=end,index -m --preview='$PREVIEW_COMMAND | head -\$LINES'"
