@@ -40,15 +40,19 @@ the moment, this plugin doesn't allow the **Ctrl-G** keybinding to be
 customized, but you can change by simply forking the plugin and editing the
 file if you want.
 
-One more option - if you set the `FZFZ_EXCLUDE_PATTERN` environment variable
-to a regex (matched with `egrep`) it will exclude any directory which matches
-it from appearing in the subdirectory results (it isn't applied to the `z`
-results, since it's assumed any directory you've navigated to before is one
-you might be interested in). By default this variable is set to filter out
-anything in a `.git` directory.
+If you set the `FZFZ_EXCLUDE_PATTERN` environment variable to a regex (matched
+with `egrep`) it will exclude any directory which matches it from appearing in
+the subdirectory results (it isn't applied to the `z` results, since it's
+assumed any directory you've navigated to before is one you might be
+interested in). By default this variable is set to filter out anything in a
+`.git` directory.
 
 You can also set `FZFZ_EXTRA_OPTS` to add any additional options you like to
 the `fzf` command - for example, `-e` will turn exact matching on by default.
+
+By default, fzf-z will filter out duplicates between its different mechanisms
+of finding file paths; however, this does slow it down. If you don't care
+about that and want to speed it up, set `FZFZ_UNIQUIFIER="cat"`.
 
 ## Installation
 

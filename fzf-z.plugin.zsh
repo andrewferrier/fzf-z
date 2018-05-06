@@ -18,6 +18,7 @@ fi
 
 FZFZ_EXCLUDE_PATTERN=${FZFZ_EXCLUDE_PATTERN:="\/.git"}
 FZFZ_EXTRA_OPTS=${FZFZ_EXTRA_OPTS:=""}
+FZFZ_UNIQUIFIER="awk '!seen[\$0]++'"
 
 __fzfz() {
     if (($+FZFZ_EXCLUDE_PATTERN)); then
@@ -46,7 +47,7 @@ __fzfz() {
 
     FZF_COMMAND="fzf --height ${FZF_TMUX_HEIGHT:-40%} ${FZFZ_EXTRA_OPTS} --tiebreak=end,index -m --preview='$PREVIEW_COMMAND | head -\$LINES'"
 
-    local COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $EXTRA_DIRS; } | uniq | $FZF_COMMAND"
+    local COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $EXTRA_DIRS; } | $FZFZ_UNIQUIFIER | $FZF_COMMAND"
 
     eval "$COMMAND" | while read item; do
         printf '%q ' "$item"
