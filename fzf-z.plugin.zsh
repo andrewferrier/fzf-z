@@ -20,6 +20,12 @@ FZFZ_EXCLUDE_PATTERN=${FZFZ_EXCLUDE_PATTERN:="\/.git"}
 FZFZ_EXTRA_OPTS=${FZFZ_EXTRA_OPTS:=""}
 FZFZ_UNIQUIFIER="awk '!seen[\$0]++'"
 
+if type fd &>/dev/null; then
+    FIND=fd
+else
+    FIND=find
+fi
+
 __fzfz() {
     if (($+FZFZ_EXCLUDE_PATTERN)); then
         EXCLUDER="egrep -v '$FZFZ_EXCLUDE_PATTERN'"
@@ -42,7 +48,7 @@ __fzfz() {
     REMOVE_FIRST="tail -n +2"
     LIMIT_LENGTH="head -n $(($FZFZ_SUBDIR_LIMIT+1))"
 
-    SUBDIRS="{ find '$PWD' -type d | $EXCLUDER | $LIMIT_LENGTH | $REMOVE_FIRST }"
+    SUBDIRS="{ $FIND '$PWD' -type d | $EXCLUDER | $LIMIT_LENGTH | $REMOVE_FIRST }"
     RECENTLY_USED_DIRS="{ z -l | $REVERSER | sed 's/^[[:digit:].]*[[:space:]]*//' }"
 
     FZF_COMMAND="fzf --height ${FZF_TMUX_HEIGHT:-40%} ${FZFZ_EXTRA_OPTS} --tiebreak=end,index -m --preview='$PREVIEW_COMMAND | head -\$LINES'"
