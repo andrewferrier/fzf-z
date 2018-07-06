@@ -40,6 +40,19 @@ the moment, this plugin doesn't allow the **Ctrl-G** keybinding to be
 customized, but you can change by simply forking the plugin and editing the
 file if you want.
 
+## Installation
+
+You must have the [z
+plugin](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/z)
+installed as a pre-req. You must also have [fzf](https://github.com/junegunn/fzf)
+installed. Both must be in your `$PATH`.
+
+Treat this plugin like [any other zsh
+plugin](http://joshldavis.com/2014/07/26/oh-my-zsh-is-a-disease-antigen-is-the-vaccine/).
+For example:
+
+## Customizing
+
 If you set the `FZFZ_EXCLUDE_PATTERN` environment variable to a regex (matched
 with `egrep`) it will exclude any directory which matches it from appearing in
 the subdirectory results (it isn't applied to the `z` results, since it's
@@ -54,16 +67,11 @@ By default, fzf-z will filter out duplicates between its different mechanisms
 of finding file paths; however, this does slow it down. If you don't care
 about that and want to speed it up, set `FZFZ_UNIQUIFIER="cat"`.
 
-## Installation
+## Performance
 
-You must have the [z
-plugin](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/z)
-installed as a pre-req. You must also have [fzf](https://github.com/junegunn/fzf)
-installed. Both must be in your `$PATH`.
-
-Treat this plugin like [any other zsh
-plugin](http://joshldavis.com/2014/07/26/oh-my-zsh-is-a-disease-antigen-is-the-vaccine/).
-For example:
+If it's installed and in your `PATH`, `fzf-z` will use
+[fd](https://github.com/sharkdp/fd). If not, it'll fall back to `find`, which
+is slower.
 
 ### Antigen
 
