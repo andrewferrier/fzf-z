@@ -21,7 +21,7 @@ FZFZ_EXTRA_OPTS=${FZFZ_EXTRA_OPTS:=""}
 FZFZ_UNIQUIFIER="awk '!seen[\$0]++'"
 
 if type fd &>/dev/null; then
-    FIND_PREFIX="fd --color=never . "
+    FIND_PREFIX="fd --color=never --hidden . "
     FIND_POSTFIX=" --type directory"
 else
     FIND_PREFIX="find "

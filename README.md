@@ -71,7 +71,9 @@ about that and want to speed it up, set `FZFZ_UNIQUIFIER="cat"`.
 
 If it's installed and in your `PATH`, `fzf-z` will use
 [fd](https://github.com/sharkdp/fd). If not, it'll fall back to `find`, which
-is slower.
+is slower. The behaviour is slightly differently also; `fd` will exclude files
+ignored by `.gitignore` or similar, which `find` will not do, so you will get
+less results. Generally, this is what you want, though.
 
 ### Antigen
 
