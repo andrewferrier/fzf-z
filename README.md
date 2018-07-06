@@ -51,6 +51,20 @@ Treat this plugin like [any other zsh
 plugin](http://joshldavis.com/2014/07/26/oh-my-zsh-is-a-disease-antigen-is-the-vaccine/).
 For example:
 
+### Antigen
+
+If you're using [Antigen](https://github.com/zsh-users/antigen):
+
+1. Add `antigen bundle andrewferrier/fzf-z` to your `.zshrc` where you've listed your other plugins.
+2. Close and reopen your Terminal/iTerm window to **refresh context** and use the plugin. Alternatively, you can run `antigen bundle andrewferrier/fzf-z` in a running shell to have antigen load the new plugin.
+
+### zgen
+
+If you're using [zgen](https://github.com/tarjoilija/zgen):
+
+1. Add `zgen load andrewferrier/fzf-z` to your `.zshrc` along with your other `zgen load` commands.
+2. `rm ${ZGEN_INIT}/init.zsh && zgen save`
+
 ## Customizing
 
 If you set the `FZFZ_EXCLUDE_PATTERN` environment variable to a regex (matched
@@ -74,17 +88,3 @@ If it's installed and in your `PATH`, `fzf-z` will use
 is slower. The behaviour is slightly differently also; `fd` will exclude files
 ignored by `.gitignore` or similar, which `find` will not do, so you will get
 less results. Generally, this is what you want, though.
-
-### Antigen
-
-If you're using [Antigen](https://github.com/zsh-users/antigen):
-
-1. Add `antigen bundle andrewferrier/fzf-z` to your `.zshrc` where you've listed your other plugins.
-2. Close and reopen your Terminal/iTerm window to **refresh context** and use the plugin. Alternatively, you can run `antigen bundle andrewferrier/fzf-z` in a running shell to have antigen load the new plugin.
-
-### zgen
-
-If you're using [zgen](https://github.com/tarjoilija/zgen):
-
-1. Add `zgen load andrewferrier/fzf-z` to your `.zshrc` along with your other `zgen load` commands.
-2. `rm ${ZGEN_INIT}/init.zsh && zgen save`
