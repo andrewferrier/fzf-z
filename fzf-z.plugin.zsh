@@ -21,9 +21,11 @@ FZFZ_EXTRA_OPTS=${FZFZ_EXTRA_OPTS:=""}
 FZFZ_UNIQUIFIER="awk '!seen[\$0]++'"
 
 if type fd &>/dev/null; then
-    FIND=fd
+    FIND_PREFIX="fd --color=never . "
+    FIND_POSTFIX=" --type directory"
 else
-    FIND=find
+    FIND_PREFIX="find "
+    FIND_POSTFIX=" -type d"
 fi
 
 __fzfz() {
@@ -38,7 +40,7 @@ __fzfz() {
     # FZFZ_SUBDIR_LIMIT is applied on the post-excluded list.
 
     if (($+FZFZ_EXTRA_DIRS)); then
-        EXTRA_DIRS="{ find $FZFZ_EXTRA_DIRS -type d 2> /dev/null | $EXCLUDER }"
+        EXTRA_DIRS="{ $FIND_PREFIX $FZFZ_EXTRA_DIRS $FIND_POSTFIX 2> /dev/null | $EXCLUDER }"
     else
         EXTRA_DIRS="{ true }"
     fi
@@ -48,7 +50,7 @@ __fzfz() {
     REMOVE_FIRST="tail -n +2"
     LIMIT_LENGTH="head -n $(($FZFZ_SUBDIR_LIMIT+1))"
 
-    SUBDIRS="{ $FIND '$PWD' -type d | $EXCLUDER | $LIMIT_LENGTH | $REMOVE_FIRST }"
+    SUBDIRS="{ $FIND_PREFIX $PWD $FIND_POSTFIX | $EXCLUDER | $LIMIT_LENGTH | $REMOVE_FIRST }"
     RECENTLY_USED_DIRS="{ z -l | $REVERSER | sed 's/^[[:digit:].]*[[:space:]]*//' }"
 
     FZF_COMMAND="fzf --height ${FZF_TMUX_HEIGHT:-40%} ${FZFZ_EXTRA_OPTS} --tiebreak=end,index -m --preview='$PREVIEW_COMMAND | head -\$LINES'"
