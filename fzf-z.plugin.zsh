@@ -71,5 +71,11 @@ fzfz-file-widget() {
     return $ret
 }
 
-zle     -N   fzfz-file-widget
-bindkey '^G' fzfz-file-widget
+zle -N fzfz-file-widget
+bindkey -M viins -r '^G'
+bindkey -M vicmd -r '^G'
+bindkey -M emacs -r '^G'
+
+bindkey -M viins '^G' fzfz-file-widget
+bindkey -M vicmd '^G' fzfz-file-widget
+bindkey -M emacs '^G' fzfz-file-widget
