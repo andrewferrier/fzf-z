@@ -29,12 +29,15 @@ shown in `fzf`, first to last):
 
    `export FZFZ_EXTRA_DIRS="~/MyDocuments '~/Desktop/Some Other Stuff'"`
 
-To use the plugin, simply hit `<CTRL-g>` anywhere on an empty zsh
-command-line, and it will bring up a list of directories according to the
-three categories above (mixed together).  Select one, perhaps typing to filter
-the list, and hit Enter - you'll change to that directory (assuming you have
-the `AUTO_CD` zsh option turned on, which is recommended). This is similar to
-the default **Ctrl-T** binding already provided by the [fzf zsh key-bindings
+To use the plugin, simply hit `<CTRL-g>` on the zsh command-line, and it will
+bring up a list of directories according to the three categories above (mixed
+together).  Select one, perhaps typing to filter the list, and hit Enter - the
+path to the selected directory will be inserted into the command line.  If you
+started with an empty command line, and you have the `AUTO_CD` zsh option
+turned on you'll change to that directory instantly.
+
+This is similar to the default **Ctrl-T** binding already provided by the
+[fzf zsh key-bindings
 file](https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh). At
 the moment, this plugin doesn't allow the **Ctrl-G** keybinding to be
 customized, but you can change by simply forking the plugin and editing the
