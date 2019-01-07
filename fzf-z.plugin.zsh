@@ -64,11 +64,23 @@ __fzfz() {
 }
 
 fzfz-file-widget() {
+    local shouldAccept=$(should-accept-line)
     LBUFFER="${LBUFFER}$(__fzfz)"
     local ret=$?
     zle redisplay
     typeset -f zle-line-init >/dev/null && zle zle-line-init
+    if [[ $ret -eq 0 && -n "$BUFFER" && -n "$shouldAccept" ]]; then
+        zle .accept-line
+    fi
     return $ret
+}
+
+# Accept the line if the buffer was empty before invoking the file widget, and
+# the `auto_cd` option is set.
+should-accept-line() {
+    if [[ ${#${(z)BUFFER}} -eq 0 && -o auto_cd ]]; then
+        echo "true";
+    fi
 }
 
 zle -N fzfz-file-widget
