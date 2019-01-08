@@ -3,36 +3,44 @@
 # Based on https://github.com/junegunn/fzf/blob/master/shell/key-bindings.zsh
 # (MIT licensed, as of 2016-05-05).
 
+# These options are intended to be user-customizable if needed; you can
+# override them by exporting them from your ~/.zshrc. See README for more
+# details.
+
+FZFZ_EXCLUDE_PATTERN=${FZFZ_EXCLUDE_PATTERN:="\/.git"}
+FZFZ_EXTRA_OPTS=${FZFZ_EXTRA_OPTS:=""}
+FZFZ_UNIQUIFIER=${FZFZ_UNIQUIFIER:="awk '!seen[\$0]++'"}
+FZFZ_SUBDIR_LIMIT=${FZFZ_SUBDIR_LIMIT:=50}
+
+# *****
+
 if [[ $OSTYPE == darwin* ]]; then
-    REVERSER='tail -r'
+    FZFZ_REVERSER='tail -r'
 else
-    REVERSER='tac'
+    FZFZ_REVERSER='tac'
 fi
 
 command -v tree >/dev/null 2>&1
 if [ $? -eq 0 ]; then
-    PREVIEW_COMMAND='tree -L 2 -x --noreport --dirsfirst {}'
+    FZFZ_PREVIEW_COMMAND='tree -L 2 -x --noreport --dirsfirst {}'
 else
-    PREVIEW_COMMAND='ls -1 -R {}'
+    FZFZ_PREVIEW_COMMAND='ls -1 -R {}'
 fi
 
-FZFZ_EXCLUDE_PATTERN=${FZFZ_EXCLUDE_PATTERN:="\/.git"}
-FZFZ_EXTRA_OPTS=${FZFZ_EXTRA_OPTS:=""}
-FZFZ_UNIQUIFIER="awk '!seen[\$0]++'"
 
 if type fd &>/dev/null; then
-    FIND_PREFIX="fd --color=never --hidden . "
-    FIND_POSTFIX=" --type directory"
+    FZFZ_FIND_PREFIX="fd --color=never --hidden . "
+    FZFZ_FIND_POSTFIX=" --type directory"
 else
-    FIND_PREFIX="find "
-    FIND_POSTFIX=" -type d"
+    FZFZ_FIND_PREFIX="find "
+    FZFZ_FIND_POSTFIX=" -type d"
 fi
 
 __fzfz() {
     if (($+FZFZ_EXCLUDE_PATTERN)); then
-        EXCLUDER="egrep -v '$FZFZ_EXCLUDE_PATTERN'"
+        local EXCLUDER="egrep -v '$FZFZ_EXCLUDE_PATTERN'"
     else
-        EXCLUDER="cat"
+        local EXCLUDER="cat"
     fi
 
     # EXCLUDER is applied directly only to searches that need it (i.e. not
@@ -40,20 +48,18 @@ __fzfz() {
     # FZFZ_SUBDIR_LIMIT is applied on the post-excluded list.
 
     if (($+FZFZ_EXTRA_DIRS)); then
-        EXTRA_DIRS="{ $FIND_PREFIX $FZFZ_EXTRA_DIRS $FIND_POSTFIX 2> /dev/null | $EXCLUDER }"
+        local EXTRA_DIRS="{ $FZFZ_FIND_PREFIX $FZFZ_EXTRA_DIRS $FZFZ_FIND_POSTFIX 2> /dev/null | $EXCLUDER }"
     else
-        EXTRA_DIRS="{ true }"
+        local EXTRA_DIRS="{ true }"
     fi
 
-    FZFZ_SUBDIR_LIMIT=${FZFZ_SUBDIR_LIMIT:=50}
+    local REMOVE_FIRST="tail -n +2"
+    local LIMIT_LENGTH="head -n $(($FZFZ_SUBDIR_LIMIT+1))"
 
-    REMOVE_FIRST="tail -n +2"
-    LIMIT_LENGTH="head -n $(($FZFZ_SUBDIR_LIMIT+1))"
+    local SUBDIRS="{ $FZFZ_FIND_PREFIX $PWD $FZFZ_FIND_POSTFIX | $EXCLUDER | $LIMIT_LENGTH | $REMOVE_FIRST }"
+    local RECENTLY_USED_DIRS="{ z -l | $FZFZ_REVERSER | sed 's/^[[:digit:].]*[[:space:]]*//' }"
 
-    SUBDIRS="{ $FIND_PREFIX $PWD $FIND_POSTFIX | $EXCLUDER | $LIMIT_LENGTH | $REMOVE_FIRST }"
-    RECENTLY_USED_DIRS="{ z -l | $REVERSER | sed 's/^[[:digit:].]*[[:space:]]*//' }"
-
-    FZF_COMMAND="fzf --height ${FZF_TMUX_HEIGHT:-40%} ${FZFZ_EXTRA_OPTS} --tiebreak=end,index -m --preview='$PREVIEW_COMMAND | head -\$LINES'"
+    local FZF_COMMAND="fzf --height ${FZF_TMUX_HEIGHT:-40%} ${FZFZ_EXTRA_OPTS} --tiebreak=end,index -m --preview='$FZFZ_PREVIEW_COMMAND | head -\$LINES'"
 
     local COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $EXTRA_DIRS; } | $FZFZ_UNIQUIFIER | $FZF_COMMAND"
 
