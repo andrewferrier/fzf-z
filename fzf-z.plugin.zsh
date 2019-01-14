@@ -36,7 +36,7 @@ else
     FZFZ_FIND_POSTFIX=" -type d"
 fi
 
-__fzfz() {
+__fzfz_get_command() {
     if (($+FZFZ_EXCLUDE_PATTERN)); then
         local EXCLUDER="egrep -v '$FZFZ_EXCLUDE_PATTERN'"
     else
@@ -62,7 +62,11 @@ __fzfz() {
     local FZF_COMMAND="fzf --height ${FZF_TMUX_HEIGHT:-40%} ${FZFZ_EXTRA_OPTS} --tiebreak=end,index -m --preview='$FZFZ_PREVIEW_COMMAND | head -\$LINES'"
 
     local COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $EXTRA_DIRS; } | $FZFZ_UNIQUIFIER | $FZF_COMMAND"
+    echo $COMMAND
+}
 
+__fzfz() {
+    local COMMAND=$(__fzfz_get_command)
     eval "$COMMAND" | while read item; do
         printf '%q ' "$item"
     done
