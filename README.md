@@ -7,12 +7,14 @@ which allows you to track recently and commonly used directories. The *z*
 plugin does a great job of allowing you to switch between frequently-used
 directories just by typing `z *somedirectorysubstring*`, but it doesn't really
 easily allow you to browse those directories, with partial-string search. This
-plugin was invented to solve that problem.
+plugin was invented to solve that problem, using `fzf` as a front-end.
 
-Since then, I've extended it to support two other sources of information about
-the directories you might be interested in, which are all mixed into the same
-list delivered through `fzf`. In priority order (the order in which they are
-shown in `fzf`, first to last):
+## Sources of information
+
+Since the original version, I've extended `fzf-z` to support two other sources
+of information about the directories you might be interested in, which are all
+mixed into the same list delivered through `fzf`. In priority order (the order
+in which they are shown in `fzf`, first to last):
 
 1. Directories *under* the current directory. The number of these shown in
    `fzf` is limited by the `FZFZ_SUBDIR_LIMIT` environment variable, which
@@ -29,12 +31,28 @@ shown in `fzf`, first to last):
 
    `export FZFZ_EXTRA_DIRS="~/MyDocuments '~/Desktop/Some Other Stuff'"`
 
-To use the plugin, simply hit `<CTRL-g>` on the zsh command-line, and it will
-bring up a list of directories according to the three categories above (mixed
-together).  Select one, perhaps typing to filter the list, and hit Enter - the
-path to the selected directory will be inserted into the command line.  If you
-started with an empty command line, and you have the `AUTO_CD` zsh option
-turned on you'll change to that directory instantly.
+## Pre-requisities
+
+You must have the [z
+plugin](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/z)
+installed as a pre-req. You must also have
+[fzf](https://github.com/junegunn/fzf) installed. Both must be in your `$PATH`.
+These have to be installed irrespective of how you use `fzf-z`.
+
+## Ways to use fzf-z
+
+### As a zsh plugin
+
+Treat this plugin like any other zsh plugin and install using a [zsh plugin
+manager](https://github.com/unixorn/awesome-zsh-plugins#frameworks) For
+example:
+
+Once the plugin is installed, simply hit `<CTRL-g>` on the zsh command-line,
+and it will bring up a list of directories according to the sources of
+information listed above. Select one, perhaps typing to filter the list, and
+hit Enter - the path to the selected directory will be inserted into the
+command line.  If you started with an empty command line, and you have the
+`AUTO_CD` zsh option turned on you'll change to that directory instantly.
 
 This is similar to the default **Ctrl-T** binding already provided by the
 [fzf zsh key-bindings
@@ -43,30 +61,12 @@ the moment, this plugin doesn't allow the **Ctrl-G** keybinding to be
 customized, but you can change by simply forking the plugin and editing the
 file if you want.
 
-## Installation
+### As a command
 
-You must have the [z
-plugin](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/z)
-installed as a pre-req. You must also have [fzf](https://github.com/junegunn/fzf)
-installed. Both must be in your `$PATH`.
-
-Treat this plugin like [any other zsh
-plugin](http://joshldavis.com/2014/07/26/oh-my-zsh-is-a-disease-antigen-is-the-vaccine/).
-For example:
-
-### Antigen
-
-If you're using [Antigen](https://github.com/zsh-users/antigen):
-
-1. Add `antigen bundle andrewferrier/fzf-z` to your `.zshrc` where you've listed your other plugins.
-2. Close and reopen your Terminal/iTerm window to **refresh context** and use the plugin. Alternatively, you can run `antigen bundle andrewferrier/fzf-z` in a running shell to have antigen load the new plugin.
-
-### zgen
-
-If you're using [zgen](https://github.com/tarjoilija/zgen):
-
-1. Add `zgen load andrewferrier/fzf-z` to your `.zshrc` along with your other `zgen load` commands.
-2. `rm ${ZGEN_INIT}/init.zsh && zgen save`
+*New*: this plugin repository also now includes `fzfz` as a standalone command
+(although it depends on the provided script `zlist.sh` also). You can run this
+as an alternative to using this as a plugin, and it will print the selected
+directory to stdout, which you can use to embed this in other tools.
 
 ## Customizing
 

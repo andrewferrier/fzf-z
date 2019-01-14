@@ -1,0 +1,64 @@
+#!/usr/bin/env zsh
+#
+# These options are intended to be user-customizable if needed; you can
+# override them by exporting them from your ~/.zshrc. See README for more
+# details.
+
+SCRIPT_PATH="${0:A:h}"
+
+FZFZ_EXCLUDE_PATTERN=${FZFZ_EXCLUDE_PATTERN:="\/.git"}
+FZFZ_EXTRA_OPTS=${FZFZ_EXTRA_OPTS:=""}
+FZFZ_UNIQUIFIER=${FZFZ_UNIQUIFIER:="awk '!seen[\$0]++' 2>&1"}
+FZFZ_SUBDIR_LIMIT=${FZFZ_SUBDIR_LIMIT:=50}
+
+# *****
+
+if [[ $OSTYPE == darwin* ]]; then
+    REVERSER='tail -r'
+else
+    REVERSER='tac'
+fi
+
+command -v tree >/dev/null 2>&1
+if [ $? -eq 0 ]; then
+    PREVIEW_COMMAND='tree -L 2 -x --noreport --dirsfirst {}'
+else
+    PREVIEW_COMMAND='ls -1 -R {}'
+fi
+
+
+if type fd &>/dev/null; then
+    FIND_PREFIX="fd --color=never --hidden . "
+    FIND_POSTFIX=" --type directory"
+else
+    FIND_PREFIX="find "
+    FIND_POSTFIX=" -type d"
+fi
+
+if (($+FZFZ_EXCLUDE_PATTERN)); then
+    EXCLUDER="egrep -v '$FZFZ_EXCLUDE_PATTERN'"
+else
+    EXCLUDER="cat"
+fi
+
+# EXCLUDER is applied directly only to searches that need it (i.e. not
+# `z`). That improvements performance, and makes sure that the
+# FZFZ_SUBDIR_LIMIT is applied on the post-excluded list.
+
+if (($+FZFZ_EXTRA_DIRS)); then
+    EXTRA_DIRS="{ $FIND_PREFIX $FZFZ_EXTRA_DIRS $FIND_POSTFIX 2> /dev/null | $EXCLUDER }"
+else
+    EXTRA_DIRS="{ true }"
+fi
+
+REMOVE_FIRST="tail -n +2"
+LIMIT_LENGTH="head -n $(($FZFZ_SUBDIR_LIMIT+1))"
+
+SUBDIRS="{ $FIND_PREFIX $PWD $FIND_POSTFIX | $EXCLUDER | $LIMIT_LENGTH | $REMOVE_FIRST }"
+Z_LIST="{ $SCRIPT_PATH/zlist.sh }"
+RECENTLY_USED_DIRS="{ $Z_LIST | $REVERSER | sed 's/^[[:digit:].]*[[:space:]]*//' }"
+
+FZF_COMMAND="fzf --height ${FZF_TMUX_HEIGHT:-40%} ${FZFZ_EXTRA_OPTS} --tiebreak=end,index -m --preview='$PREVIEW_COMMAND | head -\$LINES'"
+
+COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $EXTRA_DIRS; } | $FZFZ_UNIQUIFIER | $FZF_COMMAND"
+eval $COMMAND
