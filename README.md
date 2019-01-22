@@ -44,7 +44,7 @@ These have to be installed irrespective of how you use `fzf-z`.
 ### As a zsh plugin
 
 Treat this plugin like any other zsh plugin and install using a [zsh plugin
-manager](https://github.com/unixorn/awesome-zsh-plugins#frameworks) For
+manager](https://github.com/unixorn/awesome-zsh-plugins#frameworks). For
 example:
 
 Once the plugin is installed, simply hit `<CTRL-g>` on the zsh command-line,
