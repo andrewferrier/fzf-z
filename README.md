@@ -31,13 +31,18 @@ in which they are shown in `fzf`, first to last):
 
    `export FZFZ_EXTRA_DIRS="~/MyDocuments '~/Desktop/Some Other Stuff'"`
 
-## Pre-requisities
+## Pre-requisites
 
 You must have the [z
 plugin](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/z)
 installed as a pre-req. You must also have
-[fzf](https://github.com/junegunn/fzf) installed. Both must be in your `$PATH`.
-These have to be installed irrespective of how you use `fzf-z`.
+[fzf](https://github.com/junegunn/fzf) installed. Both must be in your
+`$PATH`. These have to be installed irrespective of how you use `fzf-z`.
+
+*Note*: When you first use `fzf-z`, it will dynamically download `z.sh` for
+its own internal use. You still need to have the [z
+plugin](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/z)
+installed anyway.
 
 ## Ways to use fzf-z
 

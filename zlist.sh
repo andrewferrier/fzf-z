@@ -6,6 +6,7 @@ set -o pipefail
 SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 if [ ! -f "$SCRIPT_PATH/z.sh" ]; then
+    >&2 echo "Locally-cached copy of z.sh not found, downloading..."
     curl https://raw.githubusercontent.com/rupa/z/master/z.sh > "$SCRIPT_PATH/z.sh"
 fi
 
