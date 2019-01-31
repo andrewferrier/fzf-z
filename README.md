@@ -7,12 +7,14 @@ which allows you to track recently and commonly used directories. The *z*
 plugin does a great job of allowing you to switch between frequently-used
 directories just by typing `z *somedirectorysubstring*`, but it doesn't really
 easily allow you to browse those directories, with partial-string search. This
-plugin was invented to solve that problem, using `fzf` as a front-end.
+plugin was invented to solve that problem, using `fzf` as a front-end. Since
+then, it's been extended to support [fasd](https://github.com/clvv/fasd),
+another 'frecency' plugin, as an alternative to `z`.
 
 ## Sources of information
 
-Since the original version, I've extended `fzf-z` to support two other sources
-of information about the directories you might be interested in, which are all
+Since the original version, I've extended `fzf-z` to support other sources of
+information about the directories you might be interested in, which are all
 mixed into the same list delivered through `fzf`. In priority order (the order
 in which they are shown in `fzf`, first to last):
 
@@ -21,9 +23,10 @@ in which they are shown in `fzf`, first to last):
    defaults to 50. If you don't want those to be shown, simply set this to
    `0`.
 
-1. Recently used dirs, as provided by the `z` command from the z plugin (the
-   original purpose of this plugin). The order shown is the order given by `z
-   -l`.
+1. Recently used dirs. By default, these are provided by the `z` command from
+   the z plugin (the original purpose of this plugin). The order shown is the
+   order given by `z -l`. However, if you want to use `fasd` instead, set
+   `FZFZ_RECENT_DIRS_TOOL` to `fasd`.
 
 1. All subdirectories in all directories listed in the FZFZ_EXTRA_DIRS
    environment variables. These directories are space-separated, so for
@@ -33,13 +36,20 @@ in which they are shown in `fzf`, first to last):
 
 ## Pre-requisites
 
-You must have the [z
-plugin](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/z)
-installed as a pre-req. You must also have
-[fzf](https://github.com/junegunn/fzf) installed. Both must be in your
-`$PATH`. These have to be installed irrespective of how you use `fzf-z`.
+You must have either:
 
-*Note*: When you first use `fzf-z`, it will dynamically download `z.sh` for
+* The [z
+plugin](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/z)
+installed *OR*
+
+* The [fasd](https://github.com/clvv/fasd) tool installed.
+
+You must also have [fzf](https://github.com/junegunn/fzf) installed.
+
+These tools must be in your `$PATH`. These have to be installed irrespective
+of how you use `fzf-z`.
+
+*Note*: When you first use `fzf-z`, if you have configured `FZFZ_RECENT_DIRS_TOOL` to use `z` (which is the default). it will dynamically download `z.sh` for
 its own internal use. You still need to have the [z
 plugin](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/z)
 installed anyway.
@@ -69,7 +79,7 @@ file if you want.
 ### As a command
 
 *New*: this plugin repository also now includes `fzfz` as a standalone command
-(although it depends on the provided script `zlist.sh` also). You can run this
+(although it depends on the provided script `recentdirs.sh` also). You can run this
 as an alternative to using this as a plugin, and it will print the selected
 directory to stdout, which you can use to embed this in other tools.
 
@@ -77,17 +87,18 @@ directory to stdout, which you can use to embed this in other tools.
 
 If you set the `FZFZ_EXCLUDE_PATTERN` environment variable to a regex (matched
 with `egrep`) it will exclude any directory which matches it from appearing in
-the subdirectory results (it isn't applied to the `z` results, since it's
-assumed any directory you've navigated to before is one you might be
+the subdirectory results (it isn't applied to the `z`/`fasd` results, since
+it's assumed any directory you've navigated to before is one you might be
 interested in). By default this variable is set to filter out anything in a
 `.git` directory.
 
 You can also set `FZFZ_EXTRA_OPTS` to add any additional options you like to
 the `fzf` command - for example, `-e` will turn exact matching on by default.
 
-By default, fzf-z will filter out duplicates between its different mechanisms
-of finding file paths; however, this does slow it down. If you don't care
-about that and want to speed it up, set `FZFZ_UNIQUIFIER="cat"`.
+By default, fzf-z will filter out duplicates in its list so directories found
+via multiple methods don't appear twice; however, this does slow it down. If
+you don't care about that and want to speed it up, set
+`FZFZ_UNIQUIFIER="cat"`.
 
 ## Performance
 
