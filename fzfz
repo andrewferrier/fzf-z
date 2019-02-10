@@ -4,14 +4,14 @@
 # override them by exporting them from your ~/.zshrc. See README for more
 # details.
 
-SCRIPT_PATH="${0:A:h}"
-
 FZFZ_EXCLUDE_PATTERN=${FZFZ_EXCLUDE_PATTERN:="\/.git"}
 FZFZ_EXTRA_OPTS=${FZFZ_EXTRA_OPTS:=""}
 FZFZ_UNIQUIFIER=${FZFZ_UNIQUIFIER:="awk '!seen[\$0]++' 2>&1"}
 FZFZ_SUBDIR_LIMIT=${FZFZ_SUBDIR_LIMIT:=50}
 
 # *****
+
+SCRIPT_PATH="${0:A:h}"
 
 if [[ $OSTYPE == darwin* ]]; then
     REVERSER='tail -r'
