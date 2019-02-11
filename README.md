@@ -28,7 +28,7 @@ in which they are shown in `fzf`, first to last):
    order given by `z -l`. However, if you want to use `fasd` instead, set
    `FZFZ_RECENT_DIRS_TOOL` to `fasd`.
 
-1. All subdirectories in all directories listed in the FZFZ_EXTRA_DIRS
+1. All subdirectories in all directories listed in the `FZFZ_EXTRA_DIRS`
    environment variables. These directories are space-separated, so for
    example:
 
