@@ -9,6 +9,15 @@ FZFZ_EXTRA_OPTS=${FZFZ_EXTRA_OPTS:=""}
 FZFZ_UNIQUIFIER=${FZFZ_UNIQUIFIER:="awk '!seen[\$0]++' 2>&1"}
 FZFZ_SUBDIR_LIMIT=${FZFZ_SUBDIR_LIMIT:=50}
 
+if ! (( ${+FZFZ_PREVIEW_COMMAND} )); then
+    command -v tree >/dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        FZFZ_PREVIEW_COMMAND='tree -C -L 2 -x --noreport --dirsfirst {}'
+    else
+        FZFZ_PREVIEW_COMMAND='ls -1 -R {}'
+    fi
+fi
+
 # *****
 
 SCRIPT_PATH="${0:A:h}"
@@ -18,14 +27,6 @@ if [[ $OSTYPE == darwin* ]]; then
 else
     REVERSER='tac'
 fi
-
-command -v tree >/dev/null 2>&1
-if [ $? -eq 0 ]; then
-    PREVIEW_COMMAND='tree -L 2 -x --noreport --dirsfirst {}'
-else
-    PREVIEW_COMMAND='ls -1 -R {}'
-fi
-
 
 if type fd &>/dev/null; then
     FIND_PREFIX="fd --color=never --hidden . "
@@ -62,7 +63,7 @@ fi
 RECENT_DIRS="{ $SCRIPT_PATH/recentdirs.sh }"
 RECENTLY_USED_DIRS="{ $RECENT_DIRS | $REVERSER | sed 's/^[[:digit:].]*[[:space:]]*//' }"
 
-FZF_COMMAND="fzf --height ${FZF_TMUX_HEIGHT:-40%} ${FZFZ_EXTRA_OPTS} --no-sort --tiebreak=end,index -m --preview='$PREVIEW_COMMAND | head -\$LINES'"
+FZF_COMMAND="fzf --height ${FZF_TMUX_HEIGHT:-40%} ${FZFZ_EXTRA_OPTS} --no-sort --tiebreak=end,index -m --preview='$FZFZ_PREVIEW_COMMAND | head -\$LINES'"
 
 COMMAND="{ $SUBDIRS ; $RECENTLY_USED_DIRS ; $EXTRA_DIRS; } | $FZFZ_UNIQUIFIER | $FZF_COMMAND"
 eval $COMMAND

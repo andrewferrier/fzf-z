@@ -83,7 +83,7 @@ file if you want.
 as an alternative to using this as a plugin, and it will print the selected
 directory to stdout, which you can use to embed this in other tools.
 
-## Customizing
+## Customizing and Options
 
 If you set the `FZFZ_EXCLUDE_PATTERN` environment variable to a regex (matched
 with `egrep`) it will exclude any directory which matches it from appearing in
@@ -99,6 +99,11 @@ By default, fzf-z will filter out duplicates in its list so directories found
 via multiple methods don't appear twice; however, this does slow it down. If
 you don't care about that and want to speed it up, set
 `FZFZ_UNIQUIFIER="cat"`.
+
+If you want to change the preview command used by fzfz (currently `tree` by
+default if it's installed, or `ls` if not), set `FZFZ_PREVIEW_COMMAND` to
+something like `ls {}` (`{}` is replaced with the directory currently
+selected).
 
 ## Performance
 
