@@ -8,8 +8,9 @@ plugin does a great job of allowing you to switch between frequently-used
 directories just by typing `z *somedirectorysubstring*`, but it doesn't really
 easily allow you to browse those directories, with partial-string search. This
 plugin was invented to solve that problem, using `fzf` as a front-end. Since
-then, it's been extended to support [fasd](https://github.com/clvv/fasd),
-another 'frecency' plugin, as an alternative to `z`.
+then, it's been extended to support [fasd](https://github.com/clvv/fasd) and
+[autojump](https://github.com/wting/autojump), other 'frecency' plugins, as
+alternatives to `z`.
 
 ## Sources of information
 
@@ -25,8 +26,9 @@ in which they are shown in `fzf`, first to last):
 
 1. Recently used dirs. By default, these are provided by the `z` command from
    the z plugin (the original purpose of this plugin). The order shown is the
-   order given by `z -l`. However, if you want to use `fasd` instead, set
-   `FZFZ_RECENT_DIRS_TOOL` to `fasd`.
+   order given by `z -l`. However, if you want to use `fasd` (preferred) or
+   `autojump` instead, set `FZFZ_RECENT_DIRS_TOOL` to `fasd` or `autojump`
+   respectively.
 
 1. All subdirectories in all directories listed in the `FZFZ_EXTRA_DIRS`
    environment variables. These directories are space-separated, so for
@@ -36,13 +38,14 @@ in which they are shown in `fzf`, first to last):
 
 ## Pre-requisites
 
-You must have either:
+You must have one of these installed:
 
 * The [z
-plugin](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/z)
-installed *OR*
+plugin](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/z).
 
-* The [fasd](https://github.com/clvv/fasd) tool installed.
+* The [fasd](https://github.com/clvv/fasd) tool.
+
+* The [autojump](https://github.com/wting/autojump) tool.
 
 You must also have [fzf](https://github.com/junegunn/fzf) installed.
 
@@ -87,10 +90,10 @@ directory to stdout, which you can use to embed this in other tools.
 
 If you set the `FZFZ_EXCLUDE_PATTERN` environment variable to a regex (matched
 with `egrep`) it will exclude any directory which matches it from appearing in
-the subdirectory results (it isn't applied to the `z`/`fasd` results, since
-it's assumed any directory you've navigated to before is one you might be
-interested in). By default this variable is set to filter out anything in a
-`.git` directory.
+the subdirectory results (it isn't applied to the `z`/`fasd`/`autojump`
+results, since it's assumed any directory you've navigated to before is one
+you might be interested in). By default this variable is set to filter out
+anything in a `.git` directory.
 
 You can also set `FZFZ_EXTRA_OPTS` to add any additional options you like to
 the `fzf` command - for example, `-e` will turn exact matching on by default.
