@@ -57,7 +57,7 @@ REMOVE_FIRST="tail -n +2"
 if (($FZFZ_SUBDIR_LIMIT == 0)); then
     SUBDIRS="{ true }"
 else
-    SUBDIRS="{ $FIND_PREFIX $PWD $FIND_POSTFIX | $EXCLUDER | head -n $(($FZFZ_SUBDIR_LIMIT+1)) | $REMOVE_FIRST }"
+    SUBDIRS="{ $FIND_PREFIX '$PWD' $FIND_POSTFIX | $EXCLUDER | head -n $(($FZFZ_SUBDIR_LIMIT+1)) | $REMOVE_FIRST }"
 fi
 
 RECENT_DIRS="{ $SCRIPT_PATH/recentdirs.sh }"
