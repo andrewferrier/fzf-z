@@ -51,7 +51,7 @@ fi
 # FZFZ_SUBDIR_LIMIT is applied on the post-excluded list.
 
 if (($+FZFZ_EXTRA_DIRS)); then
-    EXTRA_DIRS="{ $FIND_PREFIX $FZFZ_EXTRA_DIRS $FIND_POSTFIX 2> /dev/null | $EXCLUDER }"
+    EXTRA_DIRS="{ $FIND_PREFIX $FZFZ_EXTRA_DIRS $FIND_POSTFIX && $FIND_PID=${!} | ($EXCLUDER; kill -9 $FIND_PID) } 2> /dev/null"
 else
     EXTRA_DIRS="{ true }"
 fi
