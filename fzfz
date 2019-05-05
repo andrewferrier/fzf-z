@@ -37,7 +37,11 @@ else
 fi
 
 if (($+FZFZ_EXCLUDE_PATTERN)); then
-    EXCLUDER="egrep -v '$FZFZ_EXCLUDE_PATTERN'"
+    if type gegrep &>/dev/null; then
+        EXCLUDER="gegrep -v '$FZFZ_EXCLUDE_PATTERN'"
+    else
+        EXCLUDER="egrep -v '$FZFZ_EXCLUDE_PATTERN'"
+    fi
 else
     EXCLUDER="cat"
 fi
