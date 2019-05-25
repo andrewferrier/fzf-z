@@ -31,9 +31,13 @@ fi
 if type fd &>/dev/null; then
     FIND_PREFIX="fd --color=never --hidden . "
     FIND_POSTFIX=" --type directory"
+    FIND_REMOVE_SURPLUS="cat"
 else
     FIND_PREFIX="find "
     FIND_POSTFIX=" -type d"
+    # find includes the current directory, so we remove the first line from
+    # the output.
+    FIND_REMOVE_SURPLUS="tail -n +2"
 fi
 
 if (($+FZFZ_EXCLUDE_PATTERN)); then
@@ -56,12 +60,10 @@ else
     EXTRA_DIRS="{ true }"
 fi
 
-REMOVE_FIRST="tail -n +2"
-
 if (($FZFZ_SUBDIR_LIMIT == 0)); then
     SUBDIRS="{ true }"
 else
-    SUBDIRS="{ $FIND_PREFIX '$PWD' $FIND_POSTFIX | $EXCLUDER | head -n $(($FZFZ_SUBDIR_LIMIT+1)) | $REMOVE_FIRST }"
+    SUBDIRS="{ $FIND_PREFIX '$PWD' $FIND_POSTFIX | $EXCLUDER | head -n $(($FZFZ_SUBDIR_LIMIT+1)) | $FIND_REMOVE_SURPLUS }"
 fi
 
 RECENT_DIRS="{ $SCRIPT_PATH/recentdirs.sh }"
