@@ -10,11 +10,16 @@ FZFZ_UNIQUIFIER=${FZFZ_UNIQUIFIER:="awk '!seen[\$0]++' 2>&1"}
 FZFZ_SUBDIR_LIMIT=${FZFZ_SUBDIR_LIMIT:=50}
 
 if ! (( ${+FZFZ_PREVIEW_COMMAND} )); then
-    command -v tree >/dev/null 2>&1
+    command -v exa >/dev/null 2>&1
     if [ $? -eq 0 ]; then
-        FZFZ_PREVIEW_COMMAND='tree -C -L 2 -x --noreport --dirsfirst {}'
+        FZFZ_PREVIEW_COMMAND='exa --level 2 --tree --color=always --group-directories-first {}'
     else
-        FZFZ_PREVIEW_COMMAND='ls -1 -R {}'
+        command -v tree >/dev/null 2>&1
+        if [ $? -eq 0 ]; then
+            FZFZ_PREVIEW_COMMAND='tree -C -L 2 -x --noreport --dirsfirst {}'
+        else
+            FZFZ_PREVIEW_COMMAND='ls -1 -R {}'
+        fi
     fi
 fi
 
