@@ -27,7 +27,7 @@ fi
 
 SCRIPT_PATH="${0:A:h}"
 
-if [[ $OSTYPE == darwin* ]]; then
+if [[ $OSTYPE == darwin* && -z $(whence tac) ]]; then
     REVERSER='tail -r'
 else
     REVERSER='tac'
