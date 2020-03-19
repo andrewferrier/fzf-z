@@ -37,6 +37,9 @@ You must also have [fzf](https://github.com/junegunn/fzf) installed.
 These tools must be in your `$PATH`. These have to be installed irrespective
 of how you use `fzf-z`.
 
+You can set the full path to `fzf` binary with environment variable
+`FZF_BIN_PATH`, or it uses the one found in your `$PATH`.
+
 *Note*: When you first use `fzf-z`, if you have configured
 `FZFZ_RECENT_DIRS_TOOL` to use `z` (which is the default), it will dynamically
 download `z.sh` for its own internal use. You still need to have the [z
