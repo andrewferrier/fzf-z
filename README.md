@@ -32,13 +32,12 @@ plugin](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/z).
 
 * The [autojump](https://github.com/wting/autojump) tool.
 
-You must also have [fzf](https://github.com/junegunn/fzf) installed.
-
 These tools must be in your `$PATH`. These have to be installed irrespective
 of how you use `fzf-z`.
 
-You can set the full path to `fzf` binary with environment variable
-`FZF_BIN_PATH`, or it uses the one found in your `$PATH`.
+You must also have [fzf](https://github.com/junegunn/fzf) installed. You can
+set the full path to `fzf` binary with environment variable `FZF_BIN_PATH`, or
+it uses the one found in your `$PATH`.
 
 *Note*: When you first use `fzf-z`, if you have configured
 `FZFZ_RECENT_DIRS_TOOL` to use `z` (which is the default), it will dynamically
