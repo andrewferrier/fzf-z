@@ -28,7 +28,8 @@ You must have one of these installed:
 * The [z
 plugin](https://github.com/robbyrussell/oh-my-zsh/tree/master/plugins/z).
 
-* The [fasd](https://github.com/clvv/fasd) tool.
+* The [fasd](https://github.com/clvv/fasd) tool (my personal choice, and recommended
+if you are not already using one of these tools).
 
 * The [autojump](https://github.com/wting/autojump) tool.
 
