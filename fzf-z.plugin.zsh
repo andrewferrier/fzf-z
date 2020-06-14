@@ -12,7 +12,7 @@ __fzfz() {
     echo
 }
 
-fzfz-file-widget() {
+fzfz-dir-widget() {
     local shouldAccept=$(should-accept-line)
     LBUFFER="${LBUFFER}$(__fzfz)"
     local ret=$?
@@ -32,11 +32,11 @@ should-accept-line() {
     fi
 }
 
-zle -N fzfz-file-widget
+zle -N fzfz-dir-widget
 bindkey -M viins -r '^G'
 bindkey -M vicmd -r '^G'
 bindkey -M emacs -r '^G'
 
-bindkey -M viins '^G' fzfz-file-widget
-bindkey -M vicmd '^G' fzfz-file-widget
-bindkey -M emacs '^G' fzfz-file-widget
+bindkey -M viins '^G' fzfz-dir-widget
+bindkey -M vicmd '^G' fzfz-dir-widget
+bindkey -M emacs '^G' fzfz-dir-widget
