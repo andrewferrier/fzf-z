@@ -1,8 +1,7 @@
 # fzf-z
 
-**Note**: Personally I am no longer using this plugin actively, so changes will
-be minimal for now. If you're interested in taking it over, please let
-me know. I'll continue to take a look at any pull requests that are opened, however.
+**Note**: Personally I am no longer using this plugin actively, so I have archived it.
+If you're interested in taking it over, please let me know.
 
 ---
 
